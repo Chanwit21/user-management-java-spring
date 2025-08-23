@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,14 +33,15 @@ class UserServiceTest {
         user1 = new User();
         user1.setId(1L);
         user1.setName("Chanwit Pansila");
-        user1.setEmail("bomb@gmail.com");
+        user1.setUsername("chanwit");
+        user1.setEmail("chanwit@gmail.com");
 
         user2 = new User();
         user2.setId(2L);
         user2.setName("BOMB Chanwit");
-        user2.setEmail("chanwit@gmail.com");
+        user2.setUsername("bomb");
+        user2.setEmail("bomb@gmail.com");
 
-        // mock init()
         when(userClient.getUserData()).thenReturn(Arrays.asList(user1, user2));
         userService.init();
     }
@@ -69,16 +69,17 @@ class UserServiceTest {
     void testUpdateUser_found() {
         User updated = new User();
         updated.setName("Updated BOMB");
-        updated.setUsername("Chanwit");
-        updated.setEmail("Chan@gmail.com");
+        updated.setUsername("bomb_updated");
+        updated.setEmail("bomb_updated@gmail.com");
         updated.setPhone("123456789");
         updated.setWebsite("bomb.com");
 
-        Optional<User> result = userService.updateUser(1L, updated);
+        Optional<User> result = userService.updateUser(2L, updated);
 
         assertTrue(result.isPresent());
         assertEquals("Updated BOMB", result.get().getName());
-        assertEquals("Chanwit", result.get().getUsername());
+        assertEquals("bomb_updated", result.get().getUsername());
+        assertEquals("bomb_updated@gmail.com", result.get().getEmail());
     }
 
     @Test

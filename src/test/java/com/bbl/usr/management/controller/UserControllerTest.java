@@ -48,10 +48,14 @@ class UserControllerTest {
         user1 = new User();
         user1.setId(1L);
         user1.setName("Chanwit Pansila");
+        user1.setUsername("chanwit");
+        user1.setEmail("chanwit@gmail.com");
 
         user2 = new User();
         user2.setId(2L);
         user2.setName("BOMB Chanwit");
+        user2.setUsername("bomb");
+        user2.setEmail("bomb@gmail.com");
     }
 
     @Test
@@ -109,7 +113,9 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(user2)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is("BOMB Chanwit")));
+                .andExpect(jsonPath("$.name", is("BOMB Chanwit")))
+                .andExpect(jsonPath("$.username", is("bomb")))
+                .andExpect(jsonPath("$.email", is("bomb@gmail.com")));
     }
 
     @Test
