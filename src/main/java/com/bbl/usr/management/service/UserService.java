@@ -39,7 +39,7 @@ public class UserService {
     }
 
     public User createUser(User user) {
-        user.setId((long) (users.size() + 1));
+        user.setId(generateNewId());
         users.add(user);
         return user;
     }
@@ -56,6 +56,13 @@ public class UserService {
     }
 
     public boolean deleteUser(Long userId) {
-        return users.removeIf(user -> user.getId() == userId);
+        return users.removeIf(user -> Objects.equals(user.getId(), userId));
+    }
+
+    private Long generateNewId() {
+        return users.stream()
+                .mapToLong(User::getId)
+                .max()
+                .orElse(0L) + 1;
     }
 }
