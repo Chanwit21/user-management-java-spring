@@ -2,6 +2,7 @@ package com.bbl.usr.management.client;
 
 import com.bbl.usr.management.entities.User;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -19,7 +20,7 @@ public class UserClient {
             ResponseEntity<List<User>> response =
                     rest.exchange(
                             "https://jsonplaceholder.typicode.com/users",
-                            org.springframework.http.HttpMethod.GET,
+                            HttpMethod.GET,
                             null,
                             new ParameterizedTypeReference<List<User>>() {}
                     );
