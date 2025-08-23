@@ -33,4 +33,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository }}/user-management-app:latest
+          tags: ghcr.io/chanwit21/user-management-java-spring/user-management-app:latest
