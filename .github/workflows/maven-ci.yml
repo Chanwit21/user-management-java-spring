@@ -12,6 +12,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+      - name: Create Git tag
+        id: tag
+        run: |
+          TAG="v$(date +'%Y%m%d%H%M%S')"       # e.g., v202508261045
+          git tag $TAG
+          git push origin $TAG
+          echo "TAG=$TAG" >> $GITHUB_ENV
+
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -19,16 +32,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GIT_TOKEN }}
 
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ghcr.io/chanwit21/user-management-java-spring/user-management-app
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: |
+            ghcr.io/chanwit21/user-management-java-spring/user-management-app:latest
+            ghcr.io/chanwit21/user-management-java-spring/user-management-app:${{ env.TAG }}
